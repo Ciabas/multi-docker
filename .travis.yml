@@ -1,0 +1,16 @@
+langguage: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ciabas/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true ciabas/react-test npm test
+
+after_success:
+  - docker build -t ciabas/multi-client ./client
+  - docker build -t ciabas/multi-nginx ./nginx
+  - docker build -t ciabas/multi-server ./server
+  - docker build -t ciabas/multi-worker ./worker
