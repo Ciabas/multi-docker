@@ -1,0 +1,30 @@
+{
+  "AWSEBDockerrunVersion": "2",
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "ciabas/multi-client",
+      "hostname": "client",
+      "essential": false
+    },
+    {
+      "name": "server",
+      "image": "ciabas/multi-server",
+      "hostname": "api",
+      "essential": false
+    },
+    {
+      "name": "worker",
+      "image": "ciabas/multi-worker",
+      "hostname": "worker",
+      "essential": false
+    },
+    {
+      "name": "nginx",
+      "image": "ciabas/multi-nginx",
+      "essential": true,
+      "portMappings": [{ "host": 80, "containerPort": 80 }],
+      "links": ["client", "server"]
+    }
+  ]
+}
